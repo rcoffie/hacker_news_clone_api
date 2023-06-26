@@ -8,7 +8,16 @@ class StorySerializer(serializers.ModelSerializer):
         fields = ['id','title','url','text','created_at','author']
 
 
-class CommentSerializer(serializers.ModelSerializer):
+class WriteCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['id','story','comment','user','created_at']
+
+
+class ReadCommentSerializer(serializers.ModelSerializer):
+    story = StorySerializer()
+    class Meta:
+        
+        model = Comment
+        fields = ['id','story','comment','user','created_at']
+        read_only_fields  = fields

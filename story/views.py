@@ -1,5 +1,5 @@
 from story.models import Story, Comment
-from story.serializers import StorySerializer, CommentSerializer
+from story.serializers import StorySerializer, ReadCommentSerializer, WriteCommentSerializer
 from django.http import Http404
 from rest_framework.views import APIView 
 from rest_framework.response import Response
@@ -13,5 +13,9 @@ class StoryViewSet(viewsets.ModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
+    queryset = Comment.objects.select_related("story","user")
+    
+    def get_serializer_class(self):
+        if self.action in ("list","retrieve"):
+            return ReadCommentSerializer
+        return WriteCommentSerializer
