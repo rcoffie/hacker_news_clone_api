@@ -21,6 +21,7 @@ from rest_framework.routers import DefaultRouter, SimpleRouter
 router = DefaultRouter() 
 
 router.register('story_api',views.StoryViewSet,basename="story")
+router.register('comment_api',views.CommentViewSet, basename="comment")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
