@@ -26,5 +26,6 @@ router.register('comment_api',views.CommentViewSet, basename="comment")
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('user_engine/',include('user_engine.urls')),
-    path('', include(router.urls)),
+    path('',include('story.urls')),
+    path('story_api/', include(router.urls)),
 ]
