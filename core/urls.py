@@ -27,5 +27,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('user_engine/',include('user_engine.urls')),
     path('',include('story.urls')),
-    path('dashboard_api/', include(router.urls)),
+    path('dashboard/', include(router.urls)),
+    path('dashboard_api/',include('dashboard.urls')),
 ]
