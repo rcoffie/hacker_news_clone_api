@@ -18,13 +18,6 @@ class StoryDetail(generics.RetrieveAPIView):
     serializer_class = ReadStorySerializer
 
 
-class DashboardViewSet(viewsets.ModelViewSet):
-    queryset = Story.objects.all()
-    
-    def get_serializer_class(self):
-        if self.action in ("list","retrieve"):
-            return ReadStorySerializer 
-        return WriteStorySerializer
 
 
 class CommentViewSet(viewsets.ModelViewSet):
