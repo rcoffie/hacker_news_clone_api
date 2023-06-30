@@ -20,9 +20,6 @@ from story import views
 from rest_framework.routers import DefaultRouter, SimpleRouter 
 router = DefaultRouter() 
 
-router.register('dashboard_api',views.DashboardViewSet,basename="dashboard")
-router.register('comment_api',views.CommentViewSet, basename="comment")
-
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('user_engine/',include('user_engine.urls')),
