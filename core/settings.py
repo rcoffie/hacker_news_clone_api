@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "story",
     "user_engine",
+    "dashboard",
 ]
 
 MIDDLEWARE = [
