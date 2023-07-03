@@ -17,13 +17,56 @@ class StoryDetail(generics.RetrieveAPIView):
     queryset = Story.objects.all()
     serializer_class = ReadStorySerializer
 
+# class ListComment(generics.ListAPIView):
+#     queryset = Comment.objects.select_related("story","user")
+#     serializer_class = ReadCommentSerializer
 
 
+class ListComment(APIView):
+    def get(self, request, format=None):
+        comments = Comment.objects.select_related("story","user")
+        serializer = ReadCommentSerializer(comments, many=True)
+        return Response(serializer.data)
 
-class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.select_related("story","user")
+    def post(self, request, format=None):
+        serializer = WriteCommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CommentDetail(APIView):
+
+    def get_object(self, pk):
+        try:
+            return Comment.objects.get(pk=pk)
+        except Comment.DoesNotExist:
+            raise Http404 
     
-    def get_serializer_class(self):
-        if self.action in ("list","retrieve"):
-            return ReadCommentSerializer
-        return WriteCommentSerializer
+    def get(self, request, pk, format=None):
+        comment = self.get_object(pk)
+        serializer = ReadCommentSerializer(comment)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        comment = self.get_object(pk)
+        serializer = ReadCommentSerializer(comment, data=request.data)
+        if serializer.is_valid():
+            serializer.save() 
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        comment = self.get_object(pk)
+        comment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# class CommentViewSet(viewsets.ModelViewSet):
+#     queryset = Comment.objects.select_related("story","user")
+    
+#     def get_serializer_class(self):
+#         if self.action in ("list","retrieve"):
+#             return ReadCommentSerializer
+#         return WriteCommentSerializer

@@ -6,7 +6,7 @@ from user_engine.models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User 
-        fields = ['username']
+        fields = ['id','username']
         read_only_fields = fields
 
 class ReadStorySerializer(serializers.ModelSerializer):
@@ -31,6 +31,7 @@ class WriteCommentSerializer(serializers.ModelSerializer):
 
 class ReadCommentSerializer(serializers.ModelSerializer):
     story = ReadStorySerializer()
+    user = UserSerializer()
     class Meta:
         
         model = Comment
