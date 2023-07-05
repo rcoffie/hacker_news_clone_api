@@ -63,6 +63,22 @@ class CommentDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+
+class ListPostComment(generics.ListAPIView):
+    serializer_class = ReadCommentSerializer
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Comment.objects.filter(story=pk)
+
+class CreateComment(generics.CreateAPIView):
+    serializer_class = WriteCommentSerializer
+
+    def perform_create(self, serializer):
+        pk = self.kwargs.get('pk')
+        story = Story.objects.get(pk=pk)
+        serializer.save(story=story)
+
+
 # class CommentViewSet(viewsets.ModelViewSet):
 #     queryset = Comment.objects.select_related("story","user")
     
