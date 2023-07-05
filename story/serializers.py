@@ -24,9 +24,10 @@ class WriteStorySerializer(serializers.ModelSerializer):
 
 
 class WriteCommentSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         model = Comment
-        fields = ['id','story','comment','user','created_at']
+        fields = ['id','comment','user','created_at']
 
 
 class ReadCommentSerializer(serializers.ModelSerializer):
